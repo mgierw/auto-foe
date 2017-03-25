@@ -33,3 +33,5 @@ There is a web console available after server started. It runs on port 3000. So 
 
 ## Final words
 There are polish messages/comments in the code - sorry for that, but you should understand all from the code (I hope).
+
+**Important**: Using of this application violates rules of the game, so you use it at your own risk.
