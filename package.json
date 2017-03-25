@@ -1,0 +1,44 @@
+{
+  "name": "auto-foe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-start.js",
+  "scripts": {
+    "start": "node --trace-deprecation server-start.js"
+  },
+  "author": "mgierw",
+  "license": "ISC",
+  "dependencies": {
+    "better-console": "^0.2.4",
+    "cheerio": "^0.20.0",
+    "compression": "^1.6.2",
+    "console-stamp": "^0.2.2",
+    "express": "^4.14.0",
+    "lodash": "^4.15.0",
+    "moment": "^2.17.1",
+    "moment-timezone": "^0.5.10",
+    "node-uuid": "^1.4.7",
+    "request": "^2.75.0",
+    "tough-cookie-file-store": "^1.1.1",
+    "tough-cookie-filestore": "0.0.1"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "undef": true,
+    "unused": true,
+    "predef": [
+      "require",
+      "console",
+      "setInterval",
+      "exports",
+      "Buffer",
+      "process",
+      "__dirname"
+    ]
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-ts": "^6.0.0-beta.11",
+    "typescript": "^2.1.5"
+  }
+}

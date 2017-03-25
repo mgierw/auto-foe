@@ -1,0 +1,108 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	padding: 10px;
+}
+
+.ctrl-btn-group {
+	margin-bottom: 10px;
+}
+
+.avail-prod select {
+	width: 100%;
+}
+
+.res-box {
+	margin-right: 3px;
+	display: inline-block;
+	padding: 4px;
+	margin-top: 3px;
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 4px;
+	min-width: 60px;
+}
+
+.res-box img {
+	width: 22px;
+	height: 22px;
+	vertical-align: sub;
+}
+
+.bld-revenue, .bld-state {
+	text-align: center;
+}
+
+.stat-panel {
+	margin-bottom: 0px;
+	margin-top: 10px;
+}
+
+.res-image {
+	width: 22px;
+	height: 22px;
+}
+
+.prod-image {
+	width: 34px;
+	height: 34px;
+}
+
+.select-account-box {
+	margin-bottom: 10px;
+}
+
+.motivated {
+	color: green;
+	font-weight: bold;
+}
+
+.in-tab-select {
+	margin-top: 10px;
+}
+
+.res-box.red {
+	background-color: rgb(255, 104, 104);
+	color: white;
+}
+
+.res-box.green {
+	background-color: lightgreen;
+}
+
+.tech-image {
+	width: 40px;
+	height: 40px;
+}
+
+td {
+	vertical-align: middle!important;
+}
+
+.res-row {
+	display: table-row;
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 4px;
+	background-color: #FDFDFD;
+	padding: 4px;
+}
+
+.res-row .header {
+	display: table-cell;
+	padding: 4px;
+}
+
+.res-row .content {
+	display: table-cell;
+}
+
+.spinner {
+	display: inline;
+	margin-left: 50px;
+}
+
+.my-era td {
+	background-color: lightblue;
+}
+
+.bld-name {
+	font-weight: bold;
+}

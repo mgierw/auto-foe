@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&subset=latin-ext">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css">
+		<title>Panel sterowania automatem do gry Forge of Empires</title>
+	</head>
+	<body style="padding-top: 70px;">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="collapse navbar-collapse">
+					<form class="navbar-form navbar-left">
+						<div class="form-group select-account-box">
+							<select class="form-control" id="account-list"></select>
+						</div>
+						<div class="form-group btn-group ctrl-btn-group" role="group">
+<!--							<button type="button" class="btn btn-default" id="startAccount">
+								<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+								Zaloguj
+							</button>
+-->							<button type="button" class="btn btn-default" id="pauseAccount">
+								<span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+								<span class="text">Włącz pauzę</span>
+							</button>
+							<button type="button" class="btn btn-default" id="refreshAccount">
+								<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+								Odśwież
+							</button>
+						</div>
+					</form>
+					<ul class="nav navbar-nav">
+						<li>
+							<div class="spinner navbar-brand" style="display: none; height: 30px;">
+								<img src="asset/spinner.gif"/>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="account-data" style="display: none;">
+
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div id="resource-groups" class="res-list"></div>
+					<div id="res-raw-list" class="res-list"></div>
+					<div id="res-other-list" class="res-list"></div>
+				</div>
+			</div>
+
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#residential-tab" aria-controls="residential-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_residentials.png" class="res-image" /> Mieszkalne</a>
+				</li>
+				<li role="presentation">
+					<a href="#workshop-tab" aria-controls="workshop-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_workshop.png" class="res-image" /> Produkcyjne</a>
+				</li>
+				<li role="presentation">
+					<a href="#goods-tab" aria-controls="goods-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_goods.png" class="res-image" /> Towarowe</a>
+				</li>
+				<li role="presentation">
+					<a href="#culture-tab" aria-controls="culture-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_culture.png" class="res-image" /> Kulturowe</a>
+				</li>
+				<li role="presentation">
+					<a href="#decorations-tab" aria-controls="decorations-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_decorations.png" class="res-image" /> Dekoracje</a>
+				</li>
+				<li role="presentation">
+					<a href="#greatbuilding-tab" aria-controls="greatbuilding-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_greatbuildings.png" class="res-image" /> Perły architektury</a>
+				</li>
+				<li role="presentation">
+					<a href="#technology-tab" aria-controls="technology-tab" role="tab" data-toggle="tab"><img src="/asset/icon_reward/icon_reward_age.png" class="res-image" /> Technologie</a>
+				</li>
+				<li role="presentation">
+					<a href="#social-tab" aria-controls="social-tab" role="tab" data-toggle="tab"><img src="/asset/social-icon.png" class="res-image" /> Sąsiedzi</a>
+				</li>
+				<li role="presentation">
+					<a href="#stat-tab" aria-controls="stat-tab" role="tab" data-toggle="tab"><img src="/asset/statistics-icon.png" class="res-image" /> Statystyki</a>
+				</li>
+				<li role="presentation">
+					<a href="#trade-tab" aria-controls="trade-tab" role="tab" data-toggle="tab"><img src="/asset/trade-icon.png" class="res-image" /> Handel</a>
+				</li>
+				<li role="presentation">
+					<a href="#accepted-offer-tab" aria-controls="accepted-offer-tab" role="tab" data-toggle="tab"><img src="/asset/trade-icon.png" class="res-image" /> Zaakceptowane oferty</a>
+				</li>
+				<li role="presentation">
+					<a href="#res-eff-tab" aria-controls="res-eff-tab" role="tab" data-toggle="tab"><img src="/asset/star_icon.png" class="res-image" /> Wydajność</a>
+				</li>
+				<li role="presentation">
+					<a href="#campaign-tab" aria-controls="campaign-tab" role="tab" data-toggle="tab"><img src="/asset/map_icon.png" class="res-image" /> Kampania</a>
+				</li>
+			</ul>
+
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="residential-tab">
+					<table class="building-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th class="text-right">Populacja</th>
+								<th class="text-center">Produkt</th>
+								<th class="text-center">Zmotywowany</th>
+								<th>Produkcja kończy się</th>
+								<th>Wydajność [pop.*szt./h/jedn.pow.]</th>
+								<th>Akcje</th>
+							</tr>
+						</thead>
+						<tbody id="residential-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="workshop-tab">
+					<table class="building-production-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th class="text-center">Produkt</th>
+								<th class="text-center">Zmotywowany</th>
+								<th>Produkcja kończy się</th>
+								<th>Wydajność [szt./h/jedn.pow.]</th>
+							</tr>
+						</thead>
+						<tbody id="building-production-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="goods-tab">
+					<table class="building-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th class="text-center">Produkt</th>
+								<th>Produkcja kończy się</th>
+							</tr>
+						</thead>
+						<tbody id="building-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="culture-tab">
+					<table class="culture-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th>Zadowolenie</th>
+								<th class="text-center" colspan="2">Wydajność [zad./jedn.pow.]</th>
+								<th class="text-center">Zmotywowany</th>
+								<th class="text-center">Akcje</th>
+							</tr>
+						</thead>
+						<tbody id="culture-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="decorations-tab">
+					<table class="decorations-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th>Zadowolenie</th>
+								<th colspan="2">Wydajność</th>
+								<th class="text-center">Zmotywowany</th>
+								<th class="text-center">Akcje</th>
+							</tr>
+						</thead>
+						<tbody id="decorations-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="greatbuilding-tab">
+					<table class="greatbuilding-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Stan</th>
+								<th>Poziom</th>
+								<th class="text-center">Postęp</th>
+								<th class="text-center">Produkt</th>
+								<th>Produkcja kończy się</th>
+							</tr>
+						</thead>
+						<tbody id="greatbuilding-list"></tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="technology-tab">
+					<select class="era-select in-tab-select form-control"></select>
+					<table class="stat-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa</th>
+								<th class="text-center">Odkryta</th>
+								<th class="text-center">Punkty rozwoju</th>
+								<th>Opłata</th></tr>
+						</thead>
+						<tbody id="technology-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="social-tab">
+					<div id="tavern-info" class="alert alert-info" role="alert" style="margin-top: 10px;"></div>
+					<table class="social-table table table-condensed">
+						<thead>
+							<tr>
+								<th>Nazwa gracza</th>
+								<th class="text-center">Następna motywacja</th>
+								<th class="text-center">Przyjaciel</th>
+								<th class="text-center">Sąsiad</th>
+								<th class="text-center">Członek gildii</th>
+								<th class="text-center">Tawerna - stan</th>
+								<th class="text-center">Tawerna - krzesła</th>
+								<th class="text-center">Tawerna - odwiedza</th>
+							</tr>
+						</thead>
+						<tbody id="social-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="stat-tab">
+					<table class="stat-table table table-condensed">
+						<thead>
+							<tr><th>Zasób</th><th>Magazyn</th><th>Dochód</th><th>Rozchód</th><th>Saldo</th></tr>
+						</thead>
+						<tbody id="res-stat-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="trade-tab">
+					<table class="trade-table table table-condensed">
+						<thead>
+							<tr>
+								<th class="text-center">Oferta</th>
+								<th class="text-center">Potrzeba</th>
+								<th class="text-center">Utworzona</th></tr>
+						</thead>
+						<tbody id="trade-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="accepted-offer-tab">
+					<table class="accepted-offer-table table table-condensed">
+						<thead>
+							<tr><th>Kiedy</th><th>Kto</th><th>Przyjął</th><th>Oddał</th></tr>
+						</thead>
+						<tbody id="accepted-offer-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="res-eff-tab">
+					<select class="bld-type-select in-tab-select form-control">
+						<option value="residential">Mieszkalne</option>
+						<option value="supplies">Produkcyjne</option>
+						<option value="culture">Kulturowe</option>
+						<option value="decoration">Dekoracje</option>
+						<option value="street">Ulice</option>
+					</select>
+					<table class="residential-eff-table table table-condensed" style="display: none;">
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th>Koszt bud.</th>
+								<th>Populacja</th>
+								<th>Monety/h</th>
+								<th>Rozmiar</th>
+								<th>Wydajność</th>
+								<th>Poziom</th>
+							</tr>
+						</thead>
+						<tbody id="residential-eff-list">
+						</tbody>
+					</table>
+					<table class="supplies-eff-table table table-condensed" style="display: none;">
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th>Koszt bud.</th>
+								<th>Zaopatrzenie/h</th>
+								<th>Rozmiar</th>
+								<th>Wydajność</th>
+								<th>Wydajność/osoba</th>
+								<th>Poziom</th>
+							</tr>
+						</thead>
+						<tbody id="supplies-eff-list">
+						</tbody>
+					</table>
+					<table class="culture-eff-table table table-condensed" style="display: none;">
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th>Koszt bud.</th>
+								<th>Zadowolenie</th>
+								<th>Rozmiar</th>
+								<th>Wydajność</th>
+								<th>Poziom</th>
+							</tr>
+						</thead>
+						<tbody id="culture-eff-list">
+						</tbody>
+					</table>
+					<table class="decoration-eff-table table table-condensed" style="display: none;">
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th>Koszt bud.</th>
+								<th>Zadowolenie</th>
+								<th>Rozmiar</th>
+								<th>Wydajność</th>
+								<th>Poziom</th>
+							</tr>
+						</thead>
+						<tbody id="decoration-eff-list">
+						</tbody>
+					</table>
+					<table class="street-eff-table table table-condensed" style="display: none;">
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th>Koszt bud.</th>
+								<th>Zadowolenie</th>
+								<th>Rozmiar</th>
+								<th>Wydajność</th>
+								<th>Poziom</th>
+							</tr>
+						</thead>
+						<tbody id="street-eff-list">
+						</tbody>
+					</table>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="campaign-tab">
+					<table class="campaign-table table table-condensed">
+						<div id="scout-info" class="alert alert-info" role="alert" style="margin-top: 10px;"></div>
+						<thead>
+							<tr>
+								<th>Epoka</th>
+								<th>Nazwa</th>
+								<th class="text-center">Odkryta</th>
+								<th class="text-center">Zdobyta</th>
+								<th>Nagroda</th>
+								<th>Koszt zwiadu</th>
+								<th>Łączny koszt wykupu</th>
+							</tr>
+						</thead>
+						<tbody id="campaign-list">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="dialog-confirm" title="Usunąć budynek?" style="display: none;">
+			<p>
+				<span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>
+				Czy na pewno usunąć wybrany budynek <span class="bld-name"></span>?
+			</p>
+		</div>
+		<div id="dialog-msg" title="Komunikat" style="display: none;">
+			<p>
+				<span class="msg"></span>
+			</p>
+		</div>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/locale/pl.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="index.js"></script>
+		<script id="building-goods-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{state}}</td>
+				<td class="bld-revenue"></td>
+				<td>{{timeout}}</td>
+			</tr>
+		</script>
+		<script id="building-production-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{state}}</td>
+				<td class="bld-revenue"></td>
+				<td style="text-align: center;">{{#if motivated}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td>{{timeout}}</td>
+				<td>{{eff}}</td>
+			</tr>
+		</script>
+		<script id="residential-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{state}}</td>
+				<td class="text-right">{{population}}</td>
+				<td class="bld-revenue"></td>
+				<td class="text-center">{{#if motivated}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td>{{timeout}}</td>
+				<td class="text-right">{{eff}}</td>
+				<td><button type="button" class="delete-btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+			</tr>
+		</script>
+		<script id="residential-eff-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{era}}</td>
+				<td>{{name}}</td>
+				<td class="buildCost"></td>
+				<td class="population"></td>
+				<td class="money"></td>
+				<td>{{size}}</td>
+				<td class="text-right">{{eff}}</td>
+				<td class="text-center">{{level}}</td>
+			</tr>
+		</script>
+		<script id="supplies-eff-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{era}}</td>
+				<td>{{name}}</td>
+				<td class="buildCost"></td>
+				<td class="supplies"></td>
+				<td>{{size}}</td>
+				<td class="text-right">{{eff}}</td>
+				<td class="text-right">{{effPerPopulation}}</td>
+				<td class="text-center">{{level}}</td>
+			</tr>
+		</script>
+		<script id="culture-eff-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{era}}</td>
+				<td>{{name}}</td>
+				<td class="buildCost"></td>
+				<td class="happiness"></td>
+				<td>{{size}}</td>
+				<td class="text-right">{{eff}}</td>
+				<td class="text-center">{{level}}</td>
+			</tr>
+		</script>
+		<script id="street-eff-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{era}}</td>
+				<td>{{name}}</td>
+				<td class="buildCost"></td>
+				<td class="happiness"></td>
+				<td>{{size}}</td>
+				<td class="text-right">{{eff}}</td>
+				<td class="text-center">{{level}}</td>
+			</tr>
+		</script>
+		<script id="culture-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{state}}</td>
+				<td class="{{#if motivated}}motivated{{/if}}">{{happinessAmount}}</td>
+				<td>{{baseEff}}</td>
+				<td>{{actEff}}</td>
+				<td style="text-align: center;">{{#if motivated}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}} {{timeout}}</td>
+				<td><button type="button" class="delete-btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
+			</tr>
+		</script>
+		<script id="resource-template" type="text/x-handlebars-template">
+			<div class="res-box {{textClass}}">
+				<img src="{{imgPath}}" alt="{{name}}" title="{{name}}"/> <span class="amount">{{amount}}</span>
+			</div>
+		</script>
+		<script id="option-template" type="text/x-handlebars-template">
+			<option value="{{value}}">{{name}}</option>
+		</script>
+		<script id="technology-template" type="text/x-handlebars-template">
+			<tr>
+				<td><img src="{{basePath}}/assets/research/technology_icons/technology_icon_{{assetId}}.jpg" alt="{{name}}" title="{{name}}" class="tech-image" /> {{name}}</td>
+				<td class="text-center">{{#if isPaid}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="text-center">{{spDesc}}</td>
+				<td class="payment"></td>
+			</tr>
+		</script>
+		<script id="res-stat-template" type="text/x-handlebars-template">
+			<tr>
+				<td><img src="{{imgPath}}" alt="{{name}}" title="{{name}}" class="res-image" /> {{name}}</td>
+				<td>{{amount}}</td>
+				<td>{{income}}</td>
+				<td>{{expediture}}</td>
+				<td>{{saldo}}</td>
+			</tr>
+		</script>
+		<script id="greatbuilding-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{state}}</td>
+				<td>{{level}}</td>
+				<td class="text-center">{{progress}}</td>
+				<td class="bld-revenue"></td>
+				<td>{{timeout}}</td>
+			</tr>
+		</script>
+		<script id="era-radio-template" type="text/x-handlebars-template">
+			<div class="radio-inline">
+				<label>
+					<input type="radio" name="eraSelect" value="{{symbol}}"> {{name}}
+				</label>
+			</div>
+		</script>
+		<script id="res-row-template" type="text/x-handlebars-template">
+			<div class="res-row"><div class="header"></div><div class="content"></div></div>
+		</script>
+		<script id="social-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{name}}</td>
+				<td class="bld-state">{{motivation}}</td>
+				<td class="text-center">{{#if isFriend}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="text-center">{{#if isNeighbour}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="text-center">{{#if isGuildMember}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="text-center">{{#if isFriend}}{{switchTavernState ts}}{{/if}}</td>
+				<td class="text-center">{{#if isFriend}}({{ts.sittingPlayerCount}}/{{ts.unlockedChairCount}}){{/if}}</td>
+				<td class="text-center">{{#if isVisiting}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+			</tr>
+		</script>
+		<script id="trade-template" type="text/x-handlebars-template">
+			<tr>
+				<td class="trade-offer"></td>
+				<td class="trade-need"></td>
+				<td>{{created}}</td>
+			</tr>
+		</script>
+		<script id="accepted-offer-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{accepted}}</td>
+				<td>{{party}}</td>
+				<td class="trade-offer"></td>
+				<td class="trade-need"></td>
+			</tr>
+		</script>
+		<script id="campaign-template" type="text/x-handlebars-template">
+			<tr>
+				<td>{{eraName}}</td>
+				<td>{{name}}</td>
+				<td class="text-center">{{#if isScouted}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="text-center">{{#if isPlayerOwned}}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>{{/if}}</td>
+				<td class="reward">{{reward}}</td>
+				<td class="scouting-cost"></td>
+				<td class="remaining-cost"></td>
+			</tr>
+		</script>
+		<script id="scout-info-template" type="text/x-handlebars-template">
+			Zwiadowca jest w drodze do prowincji {{targetProvinceName}}. Pozostały czas: {{arrives}}.
+		</script>
+		<script id="scout-info-idle-template" type="text/x-handlebars-template">
+			Zwiadowca jest bezczynny.
+		</script>
+	</body>
+</html>
