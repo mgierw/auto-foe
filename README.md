@@ -3,7 +3,7 @@ This application does much repetitive work in internet game **Forge of Empires**
 Runs on the newest node.js server.
 
 ## Getting started
-First of you need to provide your account settings in file ``userdata/settings.json``. After that run server by typing:
+First of all you need to provide your account settings in file ``userdata/settings.json``. After that run server by typing:
 ```
 node server-start.js
 ```
@@ -17,8 +17,8 @@ This is array of account settings:
 * **answer** — this field is for Google account only and this is the answer for security question sometimes asked while signing in Google account.
 
 ## What this application does
-* Collecting production from all buildings
-* Starting production in all buildings
+* Collecting production from all buildings.
+* Starting production in all buildings.
 * Spending strategy points for technologies and, if none of technology is available, for great buildings (yours or, if you dont have any, your friends).
 * Creating market offers to make balance among goods from the same era. To be more specific, application sells those goods, for which you got raw good.
 * Polivating/Motivating other players' buildings.
