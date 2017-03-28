@@ -19,7 +19,7 @@ This is array of account settings:
 ## What this application does
 * Collecting production from all buildings.
 * Starting production in all buildings.
-* Spending strategy points for technologies and, if none of technology is available, for great buildings (yours or, if you dont have any, your friends).
+* Spending strategy points for technologies and, if none of technology is available, for great buildings (yours or, if you don't have any, your friends).
 * Creating market offers to make balance among goods from the same era. To be more specific, application sells those goods, for which you got raw good.
 * Polivating/Motivating other players' buildings.
 * Sitting down in your friends' taverns. Collecting tavern silver from your own tavern.
