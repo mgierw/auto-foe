@@ -1,0 +1,16 @@
+{
+	"accounts": [{
+		"loginType": "google",
+		"username": "username",
+		"password": "base64encodedpassword",
+		"lang": "pl",
+		"world": "pl2",
+		"answer": "anwerforsecurityquestionfromgoogle"
+	}, {
+		"loginType": "normal",
+		"username": "username",
+		"password": "base64encodedpassword",
+		"lang": "pl",
+		"world": "pl4"
+	}]
+}
