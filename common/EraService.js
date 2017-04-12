@@ -41,6 +41,6 @@ var eraListPl = {
 
 
 module.exports = {
-	getEraName: eraSymbol => eraListPl[eraSymbol],
+	getEraName: eraSymbol => eraList[eraSymbol],
 	getEraIndex: eraSymbol => _(eraList).keys().findIndex(v => v === eraSymbol)
 };

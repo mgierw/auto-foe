@@ -5,7 +5,7 @@ exports.get = (userData, apiService) => {
 	const serviceName = 'HiddenRewardService';
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	let hiddenRewards = [];
 

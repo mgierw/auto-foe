@@ -96,7 +96,7 @@ $(function() {
 	};
 
 	var getEraName = function(eraSymbol) {
-		return eraListPl[eraSymbol];
+		return eraList[eraSymbol];
 	};
 
 	var getEraIndex = function(eraSymbol) {
@@ -423,7 +423,8 @@ $(function() {
 
 	var getAccountData = function() {
 		var getStateDesc = function(state) {
-			return buildingStates[state.__class__] || state.__class__;
+			//return buildingStates[state.__class__] || state.__class__;
+			return state.__class__;
 		};
 
 		var createProductionSelect = function(def, o) {
@@ -548,7 +549,7 @@ $(function() {
 				tr.find('.bld-revenue').empty().append(getRevenueIconDesc(o.state));
 			}
 			if (!d.is_special && o.type !== 'main_building') {
-				
+
 				tr.find('.delete-btn').click(() => {
 					var dialog = $('#dialog-confirm');
 					dialog.find('span.bld-name').text(d.name);

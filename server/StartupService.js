@@ -7,7 +7,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, cityReso
 
 	let carnivalTimeout = 0;
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	return {
 		handleResponse: () => {
@@ -26,7 +26,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, cityReso
 
 				const carnivalFeature = _.find(getData.feature_flags.features, f => f.feature === 'carnival_event');
 				if (carnivalFeature) {
-					wls.writeLog('Znaleziono karnawał');
+					wls.writeLog('Carnival found');
 					carnivalTimeout = util.getTimeout(carnivalFeature.time_remaining);
 					resourceService.setCarnivalTimeout(util.getTimeout(carnivalFeature.time_remaining));
 				}
