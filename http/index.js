@@ -9,10 +9,6 @@ $(function() {
 			return '';
 		}
 		switch(ts.state) {
-		case 'isSitting':
-			return 'Siedzę';
-		case 'noChair':
-			return 'Brak krzeseł';
 		case 'alreadyVisited':
 			return moment(ts.nextVisitTime * 1000).format('D MMMM HH:mm:ss');
 		default:
@@ -189,7 +185,7 @@ $(function() {
 	var setupPauseButton = (isPaused) => {
 		pauseAccountBtn.prop('disabled', !accData || !accData.resourceList);
 		iconSpan.toggleClass('glyphicon-pause', isPaused).toggleClass('glyphicon-play', !isPaused);
-		textSpan.text(isPaused ? 'Włącz pauzę' : 'Wyłącz pauzę');
+		textSpan.text(isPaused ? 'Pause' : 'Resume');
 	};
 
 	pauseAccountBtn.click(() => {
