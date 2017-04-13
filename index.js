@@ -20,7 +20,7 @@ var createService = function(userData) {
 		return invokeGetData();
 	};
 
-	const serviceArray = [];
+	let serviceArray = [];
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
@@ -38,6 +38,10 @@ var createService = function(userData) {
 	const startupService = require('./server/StartupService').get(userData, apiService, cityMapService, definitionService, cityResourcesService, resourceService); serviceArray.push(startupService);
 	const campaignService = require('./server/CampaignService').get(userData, apiService, cityResourcesService, eraService); serviceArray.push(campaignService);
 	const greatBuildingsService = require('./server/GreatBuildingsService').get(userData, apiService, definitionService, cityResourcesService, cityMapService, otherPlayerService); serviceArray.push(greatBuildingsService);
+
+	if(userData.services) {
+		serviceArray = serviceArray.filter(service => userData.services[service.getServiceName()] != false);
+	}
 
 	apiService.setServiceArray(serviceArray);
 
