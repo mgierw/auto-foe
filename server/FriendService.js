@@ -4,7 +4,7 @@ exports.get = (userData, apiService, otherPlayerService) => {
 	const serviceName = 'FriendService';
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	return {
 		handleResponse: (rd) => {

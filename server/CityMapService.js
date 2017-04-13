@@ -23,15 +23,15 @@ exports.get = (userData, definitionService, resourceService, apiService) => {
 
 			const building = _.find(buildingList, b => b.id == buildingId);
 			if (!building) {
-				return returnMessage(`Usuwanie budynku id = ${buildingId} niemożliwe, nie ma na go liście budynków`);
+				return returnMessage(`Removing building id = ${buildingId} impossible, no building list provided`);
 			}
 			if (building.type === 'main_building') {
-				return returnMessage('Nie można usunąć budynku głównego');
+				return returnMessage('You can not remove the main building');
 			}
 			if (building.type === 'residential') {
 				var bt = definitionService.findBuildingDefinition(building.cityentity_id);
 				if ((bt.provided_population || 0) > resourceService.getPopulation(/*resourceList.population || 0*/)) {
-					return returnMessage('Nie można usunąć budynku mieszkalnego - spowodowałoby to spadek dostępnej ludności poniżej zera');
+					return returnMessage('You can not remove a residential building - it would cause a drop in available population below zero');
 				}
 			}
 
