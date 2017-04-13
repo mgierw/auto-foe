@@ -11,14 +11,14 @@ exports.get = (userData, apiService) => {
 
 	const getOverview = () => apiService.doServerRequest(serviceName, [], 'getOverview');
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	return {
 		handleResponse: (rd) => {
 			if (rd.requestMethod === 'getOverview' || rd.requestMethod === 'getChests') {
 				treasureChests = rd.responseData.treasure_chests;
 			} else if (rd.requestMethod === 'collectTreasure') {
-				wls.writeLog(`Znaleziono skarb ${rd.responseData.name}`);
+				wls.writeLog(`Found a treasure ${rd.responseData.name}`);
 			}
 		},
 		getServiceName: () => serviceName,
@@ -34,18 +34,18 @@ exports.get = (userData, apiService) => {
 				const rewards = getTcRewardDesc(travelingTs);
 				if (travelingTs.state.arrival_time * 1000 > sysdate) {
 					if (lastTravelingTc !== travelingTs) {
-						wls.writeLog(`Trwa podróż po skarb: ${rewards}, koniec: ${new Date(travelingTs.state.arrival_time * 1000)}`);
+						wls.writeLog(`Treasure journey underway: ${rewards}, ending: ${new Date(travelingTs.state.arrival_time * 1000)}`);
 						lastTravelingTc = travelingTs;
 					}
 					return Promise.resolve(null);
 				} else {
-					wls.writeLog(`Ukończono podróż po skarb: ${rewards}`);
+					wls.writeLog(`Treasure journey was completed: ${rewards}`);
 				}
 			}
 			const collectableTc = getTcByState('TreasureChestCollectable');
 			const closedTc = getTcByState('TreasureChestClosed');
 			if (collectableTc || closedTc || travelingTs) {
-				wls.writeLog('Zgarniam skarb i płynę po następny.');
+				wls.writeLog('Taking the treasure and going to the next one.');
 				return apiService.doServerRequest(serviceName, [], 'collectTreasure');
 			}
 			if (!closedTc) {

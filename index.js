@@ -20,7 +20,7 @@ var createService = function(userData) {
 		return invokeGetData();
 	};
 
-	const serviceArray = [];
+	let serviceArray = [];
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
@@ -38,6 +38,10 @@ var createService = function(userData) {
 	const startupService = require('./server/StartupService').get(userData, apiService, cityMapService, definitionService, cityResourcesService, resourceService); serviceArray.push(startupService);
 	const campaignService = require('./server/CampaignService').get(userData, apiService, cityResourcesService, eraService); serviceArray.push(campaignService);
 	const greatBuildingsService = require('./server/GreatBuildingsService').get(userData, apiService, definitionService, cityResourcesService, cityMapService, otherPlayerService); serviceArray.push(greatBuildingsService);
+
+	if(userData.services) {
+		serviceArray = serviceArray.filter(service => userData.services[service.getServiceName()] != false);
+	}
 
 	apiService.setServiceArray(serviceArray);
 
@@ -62,7 +66,7 @@ var createService = function(userData) {
 			processAutomaticActions().then(() => {
 				setAutoTimeout();
 			}, (reason) => {
-				wls.writeLog('Automatyczne przetwarzanie zgłosiło wyjątek');
+				wls.writeLog('Exception from automatic processing');
 				if (reason instanceof Error) {
 					wls.writeLog(reason.stack);
 				} else {
@@ -77,7 +81,7 @@ var createService = function(userData) {
 	setAutoTimeout();
 
 	var invokeGetData = function() {
-		wls.writeLog('Wywołanie invokeGetData');
+		wls.writeLog('Call invokeGetData');
 		return startupService.getData().then(result => {
 			user_data = result.user_data;
 			userData.era = user_data.era.era;
@@ -91,24 +95,28 @@ var createService = function(userData) {
 		return cityMapService.removeBuilding(query.bldId).then(() => ({status: 'OK'}));
 	};
 
+	var checkOption = (service) => {
+		if(userData.services[service.getServiceName()] != false) return service.process;
+	}
+
 	var processAutomaticActions = function() {
 		return util.getEmptyPromise({})
-			.then(cityProductionService.process)
+			.then(checkOption(cityProductionService))
 			.then(otherPlayerService.process)
-			.then(hiddenRewardService.process)
-			.then(researchService.process)
-			.then(greatBuildingsService.process)
-			.then(tradeService.process)
-			.then(campaignService.process)
-			.then(cityMapService.process)
-			.then(resourceService.process)
-			.then(treasureHuntService.process)
-			.then(friendsTavernService.process);
+			.then(checkOption(hiddenRewardService))
+			.then(checkOption(researchService))
+			.then(checkOption(greatBuildingsService))
+			.then(checkOption(tradeService))
+			.then(checkOption(campaignService))
+			.then(checkOption(cityMapService))
+			.then(checkOption(resourceService))
+			.then(checkOption(treasureHuntService))
+			.then(checkOption(friendsTavernService));
 	};
 
 
 	var resumeAccount = function() {
-		wls.writeLog('Wyłączam pauzę');
+		wls.writeLog('Off Pause');
 		paused = false;
 		return util.getEmptyPromise({
 			status: 'OK'
@@ -116,7 +124,7 @@ var createService = function(userData) {
 	};
 
 	var pauseAccount = function() {
-		wls.writeLog('Włączam pauzę');
+		wls.writeLog('On Pause');
 		paused = true;
 		return util.getEmptyPromise({
 			status: 'OK'

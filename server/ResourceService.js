@@ -7,7 +7,7 @@ exports.get = (userData, apiService, definitionService) => {
 
 	let resourceList = null;
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	const spUsageTreshold = 1;
 	let carnivalTimeout = 0;
@@ -24,7 +24,7 @@ exports.get = (userData, apiService, definitionService) => {
 			if (rd.requestMethod === 'getPlayerResources') {
 				resourceList = rd.responseData.resources;
 				if (isCarnival()) {
-					wls.writeLog(`Mam ${getAmount('carnival_hearts')} serc oraz ${getAmount('carnival_roses')} róż`);
+					wls.writeLog(`Have ${getAmount('carnival_hearts')} hearts and ${getAmount('carnival_roses')} roses`);
 				}
 			} else if (rd.requestMethod === 'getResourceDefinitions') {
 				definitionService.setResourceDefinitions(rd.responseData);
@@ -35,7 +35,7 @@ exports.get = (userData, apiService, definitionService) => {
 			if (isCarnival()) {
 				const amount = getAmount('carnival_roses');
 				if (amount && amount >= spUsageTreshold) {
-					wls.writeLog(`Mam ${amount} róż, wymieniam na serce.`);
+					wls.writeLog(`Have ${amount} roses, exchanged for heart.`);
 					return apiService.doServerRequest('AttemptBasedEventService', [1, false], 'tryOption');
 				}
 				return util.intervalPromiseGuard(lastRefresh, 3600, () => apiService.doServerRequest(serviceName, [], 'getPlayerResources'));

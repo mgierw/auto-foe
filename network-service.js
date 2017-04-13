@@ -54,7 +54,7 @@ var createService = function(cookieFileName) {
 				}
 			});
 		}).catch(error => {
-			console.log('Wystąpił błąd');
+			console.log('An Error Occured');
 			console.log(error);
 			throw error;
 		});
@@ -177,7 +177,7 @@ var createService = function(cookieFileName) {
 
 	var doApiRequest = function(gatewayUrl, reqData) {
 		if (!gatewayUrl) {
-			const msg = 'Parametr gatewayUrl jest null-em';
+			const msg = 'The gatewayUrl parameter is null';
 			console.log(msg);
 			throw new Error(msg);
 		}
@@ -204,21 +204,21 @@ var createService = function(cookieFileName) {
 				return sr.__class__ === 'Error';
 			});
 			if (foundError) {
-				console.log('Serwer zwrócił błąd: ' + foundError.title);
-				console.log('\t' + foundError.message);
+				console.log('Server Error:', foundError.title);
+				console.log('\t', foundError.message);
 				console.log(JSON.stringify(reqData));
 			}
 			// var foundRedirect = _.find(data.json, (sr) => {
 			// 	return sr.__class__ === "Redirect";
 			// });
 			// if (foundRedirect) {
-			// 	console.log("Serwer zwrócił Redirect");
+			// 	console.log("Server returned Redirect");
 			// 	console.log("\t" + foundRedirect.message);
 			// 	console.log("\t" + foundRedirect.url);
 			// }
 			return data;
 		}).catch(err => {
-			console.log('Wystąpił błąd');
+			console.log('Error Occured');
 			console.log(err);
 			throw err;
 		});

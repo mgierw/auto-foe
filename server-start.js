@@ -1,7 +1,7 @@
 var moment = require('moment');
 require('moment-timezone');
 require('console-stamp')(console, {
-	formatter: () => moment().tz('Europe/Warsaw').format('YYYY-MM-DD HH:mm:ss.SSS')
+	formatter: () => moment().tz('America/Chicago').format('YYYY-MM-DD HH:mm:ss.SSS')
 });
 var path = require('path');
 var express = require('express');
@@ -15,7 +15,7 @@ var isLocal = (process.env.OPENSHIFT_NODEJS_IP === undefined);
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-console.log(`Będę uruchamiał serwer na porcie ${server_port}, na adresie ${server_ip_address}`);
+console.log(`I will run the server on port ${server_port}, and address ${server_ip_address}`);
 
 app.use(compression({
 	filter: function(req, res) {
@@ -29,7 +29,7 @@ app.use('/', express.static('http'));
 app.use('/asset', express.static('static/asset'));
 
 app.listen(server_port, server_ip_address, function () {
-	console.log(`Nasłuch na porcie ${server_port}, na adresie ${server_ip_address}`);
+	console.log(`Listening on port ${server_port}, and address ${server_ip_address}`);
 });
 app.get('/health', (req, res) => {
 	res.end();
@@ -60,7 +60,7 @@ app.get('/ctrl/getAccountList', (req, res) => {
 app.get('/ctrl/*', (req, res) => {
 	var methodName = req.params[0];
 	if (methodName) {
-		console.log(`${req.query.username}(${req.query.world}): wywołano metodę ${methodName}`);
+		console.log(`${req.query.username}(${req.query.world}): Called method ${methodName}`);
 		var foundAccount = _.find(userSettings.accounts, a => a.username === req.query.username && a.world === req.query.world);
 		if (foundAccount) {
 			var method = foundAccount.gameHelper[methodName];
