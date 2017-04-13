@@ -6,7 +6,7 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 	const serviceName = 'CampaignService';
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	let campaign = null;
 
@@ -42,7 +42,7 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 			var scoutedAndNotPayedProvinces = _.filter(campaign.provinces, p => p.isScouted && !p.isPlayerOwned);
 			var toRetrieve = _.find(scoutedAndNotPayedProvinces, p => !p.segmentArray);
 			if (toRetrieve) {
-				wls.writeLog(`Pobieram szczegóły prowincji ${toRetrieve.name}`);
+				wls.writeLog(`Downloading details for ${toRetrieve.name}`);
 				return apiService.doServerRequestR('CampaignService', [toRetrieve.id], 'getProvinceData').then(segmentArray => {
 					toRetrieve.segmentArray = segmentArray;
 				});
@@ -59,7 +59,7 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 				}).first();
 				if (provinceToPay) {
 					const firstSegmentToBuy = _(provinceToPay.segmentArray).filter(s => !s.isPlayerOwned).first();
-					wls.writeLog(`Opłacam segment: id = ${firstSegmentToBuy.id}, prowincja: ${provinceToPay.name}`);
+					wls.writeLog(`Paying for segment: id = ${firstSegmentToBuy.id}, prowincja: ${provinceToPay.name}`);
 					return apiService.doServerRequestR('CampaignService', [firstSegmentToBuy.provinceId, firstSegmentToBuy.id], 'buySector').then(segmentArray => {
 						var province = _.find(campaign.provinces, p => p.id === firstSegmentToBuy.provinceId);
 						province.segmentArray = segmentArray;
@@ -119,12 +119,12 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 					}).sum();
 
 					if (targetProvince.scoutingCost < cityResourcesService.getAmount('money')) {
-						wls.writeLog(`Wysyłam zwiadowcę do prowincji ${targetProvince.name}, koszt: ${targetProvince.scoutingCost}, czas podróży: ${travelTime}`);
+						wls.writeLog(`Sending scount to ${targetProvince.name}, cost: ${targetProvince.scoutingCost}, time: ${travelTime}`);
 						wls.writeLog(path);
 						return apiService.doServerRequestR('CampaignService', [path, travelTime], 'moveScoutToProvince').then(travelTimeResp => {
-							wls.writeLog(`Otrzymano odpowiedź z serwera: ${travelTimeResp}`);
+							wls.writeLog(`A response from the server was received: ${travelTimeResp}`);
 							if (travelTimeResp === travelTime) {
-								wls.writeLog('Czas podróży zgadza się');
+								wls.writeLog('Travel time agrees');
 								return getCampaign();
 							}
 							return travelTimeResp;

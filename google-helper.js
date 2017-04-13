@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 var login = function(networkService, userData) {
 	if (userData.logged) {
-		console.log('Konto już jest uruchomione');
+		console.log('The account is already running');
 		return util.getEmptyPromise({
 			status: 'ALREADY_STARTED'
 		});
@@ -12,11 +12,12 @@ var login = function(networkService, userData) {
 		var reqUri = res.request.uri;
 		var action = form.attr('action');
 		if (action.substr(0, 4) === 'http') {
-			console.log('Akcja formularza jest pełnym URL-em');
+			console.log('Form action is full for URL ' + reqUri);
 			return action;
 		}
-		console.log('Akcja formularza nie jest pełnym URL-em, doklejam protokół i hosta');
-		return reqUri.protocol + '//' + reqUri.host + action;
+		var url = reqUri.protocol + '//' + reqUri.host + action;
+		console.log('The form action is not full for URL, I paste the protocol and the host' + url);
+		return url;
 	};
 	var collectForm = function($, form) {
 		//console.log(form.attr('action'));
@@ -41,29 +42,29 @@ var login = function(networkService, userData) {
 		var gaiaLoginFormSelector = 'form[id=gaia_loginform]';
 		var form = data.$(gaiaLoginFormSelector);
 		if (form.length !== 0) {
-			return submitForm(data, gaiaLoginFormSelector, 'Podaję nazwę użytkownika Google…', {
+			return submitForm(data, gaiaLoginFormSelector, 'Using a username from Google…', {
 				Email: userData.username
 			}).then(data => {
-				return submitForm(data, gaiaLoginFormSelector, 'Podaję hasło użytkownika Google…', {
+				return submitForm(data, gaiaLoginFormSelector, 'Entering password for Google…', {
 					Passwd: new Buffer(userData.password, 'base64').toString('ascii')
 				});
 			}).then(data => {
 				var challengeFormSelector = 'form[data-challengeentry="2"]';
 				if (data.$(challengeFormSelector).length) {
-					return submitForm(data, challengeFormSelector, 'Wybór weryfikacji logowania przez odpowiedź na pytanie kontrolne…').then(data => {
-						return submitForm(data, 'form[id=challenge]', 'Odpowiadam na pytanie kontrolne…', {
+					return submitForm(data, challengeFormSelector, 'Select the login verification by answer to the control question…').then(data => {
+						return submitForm(data, 'form[id=challenge]', 'Control question answered…', {
 							answer: userData.answer
 						}).then(data => {
-							console.log('Odpowiedziałem na pytanie kontrolne, zalogowałem się do konta Google');
+							console.log('I responded to a control question and logged in to my Google Account');
 							return data;
 						});
 					});
 				}
-				console.log('Zalogowałem się do konta Google');
+				console.log('Logged into Google');
 				return data;
 			});
 		}
-		console.log('Jestem już zalogowany do konta Google');
+		console.log('Already logged into Google');
 		return data;
 	}).then(data => {
 		console.log(data.$('title').text());

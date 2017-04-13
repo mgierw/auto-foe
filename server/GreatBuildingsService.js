@@ -5,7 +5,7 @@ exports.get = (userData, apiService, definitionService, cityResourcesService, ci
 	const serviceName = 'GreatBuildingsService';
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Tworzę usługę ${serviceName}`);
+	wls.writeLog(`Creating service ${serviceName}`);
 
 	var spendSpForGb = function(bldList) {
 		var amountToSpend = 1;
@@ -16,7 +16,7 @@ exports.get = (userData, apiService, definitionService, cityResourcesService, ci
 			if (gb) {
 				const bd = definitionService.findBuildingDefinition(gb.cityentity_id);
 				const player = otherPlayerService.findPlayer(gb.player_id);
-				wls.writeLog(`Wydawanie ${amountToSpend} punktu(ów) na perłę architektury ${bd.name} gracza ${player.name}`);
+				wls.writeLog(`Paying ${amountToSpend} forge points on Great Building ${bd.name} for player ${player.name}`);
 				return apiService.doServerRequest(serviceName, [gb.id, gb.player_id, gb.level, amountToSpend], 'spendForgePoints');
 			}
 		}
@@ -34,7 +34,7 @@ exports.get = (userData, apiService, definitionService, cityResourcesService, ci
 			if (guildMemberList.length) {
 				var randomIndex = _.random(0, guildMemberList.length - 1);
 				var gm = guildMemberList[randomIndex];
-				wls.writeLog(`Znaleziono członka gildii ${gm.name}`);
+				wls.writeLog(`Found a guild member ${gm.name}`);
 				return otherPlayerService.visitPlayer(gm.player_id).then(rd => spendSpForGb(rd.city_map.entities));
 			}
 			return util.getEmptyPromise({});

@@ -62,7 +62,7 @@ var createService = function(userData) {
 			processAutomaticActions().then(() => {
 				setAutoTimeout();
 			}, (reason) => {
-				wls.writeLog('Automatyczne przetwarzanie zgłosiło wyjątek');
+				wls.writeLog('Exception from automatic processing');
 				if (reason instanceof Error) {
 					wls.writeLog(reason.stack);
 				} else {
@@ -77,7 +77,7 @@ var createService = function(userData) {
 	setAutoTimeout();
 
 	var invokeGetData = function() {
-		wls.writeLog('Wywołanie invokeGetData');
+		wls.writeLog('Call invokeGetData');
 		return startupService.getData().then(result => {
 			user_data = result.user_data;
 			userData.era = user_data.era.era;
@@ -108,7 +108,7 @@ var createService = function(userData) {
 
 
 	var resumeAccount = function() {
-		wls.writeLog('Wyłączam pauzę');
+		wls.writeLog('Off Pause');
 		paused = false;
 		return util.getEmptyPromise({
 			status: 'OK'
@@ -116,7 +116,7 @@ var createService = function(userData) {
 	};
 
 	var pauseAccount = function() {
-		wls.writeLog('Włączam pauzę');
+		wls.writeLog('On Pause');
 		paused = true;
 		return util.getEmptyPromise({
 			status: 'OK'
