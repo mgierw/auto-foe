@@ -7,7 +7,7 @@ exports.get = (userData, apiService) => {
 
 	let resourceList = null;
 
-	wls.writeLog(`Creating service ${serviceName}`);
+	wls.writeLog(`Tworzę usługę ${serviceName}`);
 
 	const convertCityResource = function(cr) {
 		if (!cr) {

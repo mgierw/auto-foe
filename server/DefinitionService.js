@@ -13,7 +13,7 @@ exports.get = (userData) => {
 
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Running ${serviceName} for ${userData.username}`);
+	wls.writeLog(`Uruchamiam ${serviceName} dla ${userData.username}`);
 
 	const serviceMethods = {
 		getServiceName: () => serviceName,

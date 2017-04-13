@@ -1,33 +1,16 @@
 {
-    "accounts": [{
-        "loginType": "google",
-        "username": "username",
-        "password": "base64encodedpassword",
-        "lang": "pl",
-        "world": "pl2",
-        "answer": "anwerforsecurityquestionfromgoogle",
-        "services": {
-            "__comment": "True is default if not specified",
-            "CityResourcesService":  true,
-            "CityMapService":        true,
-            "ResourceService":       true,
-            "TreasureHuntService":   true,
-            "OtherPlayerService":    false,
-            "CityProductionService": true,
-            "ResearchService":       true,
-            "FriendsTavernService":  true,
-            "FriendService":         false,
-            "TradeService":          false,
-            "HiddenRewardService":   true,
-            "CampaignService":       false,
-            "GreatBuildingsService": false
-        }
-    }, {
-        "loginType": "normal",
-        "username": "username",
-        "password": "base64encodedpassword",
-        "lang": "pl",
-        "world": "pl4",
-        "__comment": "No 'services' specified so all services are 'true'"
-    }]
+	"accounts": [{
+		"loginType": "google",
+		"username": "username",
+		"password": "base64encodedpassword",
+		"lang": "pl",
+		"world": "pl2",
+		"answer": "anwerforsecurityquestionfromgoogle"
+	}, {
+		"loginType": "normal",
+		"username": "username",
+		"password": "base64encodedpassword",
+		"lang": "pl",
+		"world": "pl4"
+	}]
 }

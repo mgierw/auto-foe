@@ -13,7 +13,7 @@ exports.get = (userData, apiHelper, afterStartGameCallback) => {
 			return sr.__class__ === 'Redirect';
 		});
 		if (foundRedirect) {
-			console.log(`Server returned Redirect, message: ${foundRedirect.message}, url: ${foundRedirect.url}`);
+			console.log(`Serwer zwrócił Redirect, message: ${foundRedirect.message}, url: ${foundRedirect.url}`);
 			return foundRedirect.url;
 		}
 		return null;
@@ -35,7 +35,7 @@ exports.get = (userData, apiHelper, afterStartGameCallback) => {
 		}).then(response => {
 			var redirectUrl = checkLogout(response.json);
 			if (redirectUrl) {
-				wls.writeLog('Message Dump:');
+				wls.writeLog('Zrzut komunikatów:');
 				_.each(reqDataArray, rd => {
 					wls.writeLog(`${rd.requestId}, ${rd.requestMethod}, ${rd.requestClass}`);
 				});
