@@ -95,19 +95,23 @@ var createService = function(userData) {
 		return cityMapService.removeBuilding(query.bldId).then(() => ({status: 'OK'}));
 	};
 
+	var checkOption = (service) => {
+		if(userData.services[service.getServiceName()] != false) return service.process;
+	}
+
 	var processAutomaticActions = function() {
 		return util.getEmptyPromise({})
-			.then(cityProductionService.process)
+			.then(checkOption(cityProductionService))
 			.then(otherPlayerService.process)
-			.then(hiddenRewardService.process)
-			.then(researchService.process)
-			.then(greatBuildingsService.process)
-			.then(tradeService.process)
-			.then(campaignService.process)
-			.then(cityMapService.process)
-			.then(resourceService.process)
-			.then(treasureHuntService.process)
-			.then(friendsTavernService.process);
+			.then(checkOption(hiddenRewardService))
+			.then(checkOption(researchService))
+			.then(checkOption(greatBuildingsService))
+			.then(checkOption(tradeService))
+			.then(checkOption(campaignService))
+			.then(checkOption(cityMapService))
+			.then(checkOption(resourceService))
+			.then(checkOption(treasureHuntService))
+			.then(checkOption(friendsTavernService));
 	};
 
 
