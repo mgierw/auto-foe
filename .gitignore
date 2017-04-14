@@ -1,6 +1,3 @@
 node_modules/
 log/
 .tscache/
-!userdata/
-userdata/*
-!userdata/settings.json

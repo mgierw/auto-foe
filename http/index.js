@@ -9,6 +9,10 @@ $(function() {
 			return '';
 		}
 		switch(ts.state) {
+		case 'isSitting':
+			return 'Siedzę';
+		case 'noChair':
+			return 'Brak krzeseł';
 		case 'alreadyVisited':
 			return moment(ts.nextVisitTime * 1000).format('D MMMM HH:mm:ss');
 		default:
@@ -92,7 +96,7 @@ $(function() {
 	};
 
 	var getEraName = function(eraSymbol) {
-		return eraList[eraSymbol];
+		return eraListPl[eraSymbol];
 	};
 
 	var getEraIndex = function(eraSymbol) {
@@ -185,7 +189,7 @@ $(function() {
 	var setupPauseButton = (isPaused) => {
 		pauseAccountBtn.prop('disabled', !accData || !accData.resourceList);
 		iconSpan.toggleClass('glyphicon-pause', isPaused).toggleClass('glyphicon-play', !isPaused);
-		textSpan.text(isPaused ? 'Pause' : 'Resume');
+		textSpan.text(isPaused ? 'Włącz pauzę' : 'Wyłącz pauzę');
 	};
 
 	pauseAccountBtn.click(() => {
@@ -419,8 +423,7 @@ $(function() {
 
 	var getAccountData = function() {
 		var getStateDesc = function(state) {
-			//return buildingStates[state.__class__] || state.__class__;
-			return state.__class__;
+			return buildingStates[state.__class__] || state.__class__;
 		};
 
 		var createProductionSelect = function(def, o) {
@@ -545,7 +548,7 @@ $(function() {
 				tr.find('.bld-revenue').empty().append(getRevenueIconDesc(o.state));
 			}
 			if (!d.is_special && o.type !== 'main_building') {
-
+				
 				tr.find('.delete-btn').click(() => {
 					var dialog = $('#dialog-confirm');
 					dialog.find('span.bld-name').text(d.name);

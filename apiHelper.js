@@ -14,7 +14,7 @@ var createService = function(userData) {
 	var basePath;
 	var wls = util.writeLogService(userData);
 	const randomGuid = uuid.v4();
-	wls.writeLog(`I run ApiHelper, UUID = ${randomGuid}`);
+	wls.writeLog(`Uruchamiam ApiHelper, UUID = ${randomGuid}`);
 
 	var createObject = function(className) {
 		//wls.writeLog('Wywołanie createObject');
@@ -70,7 +70,7 @@ var createService = function(userData) {
 		}).then(data => {
 			var gwTmp = util.extractFlashVar(data.$, 'string_gatewayUrl');
 			if (!gwTmp) {
-				throw Error('gatewayUrl not found');
+				throw Error('Nie znalazłem gatewayUrl');
 			}
 			gatewayUrl = gwTmp;
 			basePath = util.extractFlashVar(data.$, 'string_basepath');
@@ -80,7 +80,7 @@ var createService = function(userData) {
 				world: currentWorld
 			};
 		}).catch(err => {
-			util.handleError(err, 'An error occurred in the sequence doStartGame');
+			util.handleError(err, 'Wystąpił błąd w sekwencji doStartGame');
 		});
 	};
 
@@ -118,7 +118,7 @@ var createService = function(userData) {
 
 	var startAccount = function() {
 		if (userData.logged) {
-			wls.writeLog('The game is already running');
+			wls.writeLog('Gra już jest uruchomiona');
 			return util.getEmptyPromise({
 				status: 'ALREADY_STARTED'
 			});
@@ -136,7 +136,7 @@ var createService = function(userData) {
 	};
 
 	var getBasePath = function() {
-		//wls.writeLog(`downloading basePath = ${basePath}`);
+		//wls.writeLog(`Pobieram basePath = ${basePath}`);
 		return basePath;
 	};
 
