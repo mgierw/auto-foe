@@ -49,7 +49,7 @@ var login = function(networkService, userData) {
 	};
 	//doPostAjax
 	console.log('Logowanie za pomocą konta gry');
-	return networkService.doGet('https://pl.forgeofempires.com/', {}).then(data => {
+	return networkService.doGet('https://' + userData.lang + '.forgeofempires.com/', {}).then(data => {
 		var formSelector = 'form[name=login]';
 		if (!data.$(formSelector).length) {
 			return util.getEmptyPromise(data);
