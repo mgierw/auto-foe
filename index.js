@@ -20,7 +20,7 @@ var createService = function(userData) {
 		return invokeGetData();
 	};
 
-	let serviceArray = [];
+	const serviceArray = [];
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
@@ -66,7 +66,7 @@ var createService = function(userData) {
 			processAutomaticActions().then(() => {
 				setAutoTimeout();
 			}, (reason) => {
-				wls.writeLog('Exception from automatic processing');
+				wls.writeLog('Automatyczne przetwarzanie zgłosiło wyjątek');
 				if (reason instanceof Error) {
 					wls.writeLog(reason.stack);
 				} else {
@@ -81,7 +81,7 @@ var createService = function(userData) {
 	setAutoTimeout();
 
 	var invokeGetData = function() {
-		wls.writeLog('Call invokeGetData');
+		wls.writeLog('Wywołanie invokeGetData');
 		return startupService.getData().then(result => {
 			user_data = result.user_data;
 			userData.era = user_data.era.era;
@@ -89,7 +89,7 @@ var createService = function(userData) {
 			isLogged = true;
 			return result;
 		});
-	};
+	};!userData.services.TradeService == false ? "" :
 
 	var deleteBuilding = (query) => {
 		return cityMapService.removeBuilding(query.bldId).then(() => ({status: 'OK'}));
@@ -101,22 +101,22 @@ var createService = function(userData) {
 
 	var processAutomaticActions = function() {
 		return util.getEmptyPromise({})
-			.then(checkOption(cityProductionService))
+			.then(checkOption(cityProductionService.process))
 			.then(otherPlayerService.process)
-			.then(checkOption(hiddenRewardService))
-			.then(checkOption(researchService))
-			.then(checkOption(greatBuildingsService))
-			.then(checkOption(tradeService))
-			.then(checkOption(campaignService))
-			.then(checkOption(cityMapService))
-			.then(checkOption(resourceService))
-			.then(checkOption(treasureHuntService))
-			.then(checkOption(friendsTavernService));
+			.then(checkOption(hiddenRewardService.process))
+			.then(checkOption(researchService.process))
+			.then(checkOption(greatBuildingsService.process))
+			.then(checkOption(tradeService.process))
+			.then(checkOption(campaignService.process))
+			.then(checkOption(cityMapService.process))
+			.then(checkOption(resourceService.process))
+			.then(checkOption(treasureHuntService.process))
+			.then(checkOption(friendsTavernService.process));
 	};
 
 
 	var resumeAccount = function() {
-		wls.writeLog('Off Pause');
+		wls.writeLog('Wyłączam pauzę');
 		paused = false;
 		return util.getEmptyPromise({
 			status: 'OK'
@@ -124,7 +124,7 @@ var createService = function(userData) {
 	};
 
 	var pauseAccount = function() {
-		wls.writeLog('On Pause');
+		wls.writeLog('Włączam pauzę');
 		paused = true;
 		return util.getEmptyPromise({
 			status: 'OK'
@@ -157,15 +157,15 @@ var createService = function(userData) {
 			resourceList: cityResourcesService.getResourceList(),
 			settings: userData.settings || {},
 			paused: paused,
-			researchArray: researchService.getResearchArray(),
+			researchArray: !userData.services.ResearchService == false ? [] : researchService.getResearchArray(),
 			user_data: user_data,
 			neighbourList: otherPlayerService.getNeighborList(),
-			tradeOffersArray: tradeService.getMyOffers(true),
-			otherOffersArray: tradeService.getMyOffers(false),
-			campaign: campaignService.getCampaignData(),
-			acceptedTrades: otherPlayerService.getAcceptedTrades(),
+			tradeOffersArray: !userData.services.TradeService == false ? [] : tradeService.getMyOffers(true),
+			otherOffersArray: !userData.services.TradeService == false ? [] : tradeService.getMyOffers(false),
+			campaign: !userData.services.campaignService == false ? {} : campaignService.getCampaignData(),
+			acceptedTrades: !userData.services.OtherPlayerService == false ? [] : otherPlayerService.getAcceptedTrades(),
 			world: userData.worldObj,
-			tavernData: friendsTavernService.getData()
+			tavernData: !userData.services.FriendsTavernService == false ? {} : friendsTavernService.getData()
 		});
 	};
 
