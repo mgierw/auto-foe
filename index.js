@@ -157,15 +157,15 @@ var createService = function(userData) {
 			resourceList: cityResourcesService.getResourceList(),
 			settings: userData.settings || {},
 			paused: paused,
-			researchArray: researchService.getResearchArray(),
+			researchArray: userData.services.ResearchService == false ? [] : researchService.getResearchArray(),
 			user_data: user_data,
 			neighbourList: otherPlayerService.getNeighborList(),
-			tradeOffersArray: tradeService.getMyOffers(true),
-			otherOffersArray: tradeService.getMyOffers(false),
-			campaign: campaignService.getCampaignData(),
-			acceptedTrades: otherPlayerService.getAcceptedTrades(),
+			tradeOffersArray: userData.services.TradeService == false ? [] : tradeService.getMyOffers(true),
+			otherOffersArray: userData.services.TradeService == false ? [] : tradeService.getMyOffers(false),
+			campaign: userData.services.campaignService == false ? {} : campaignService.getCampaignData(),
+			acceptedTrades: userData.services.OtherPlayerService == false ? [] : otherPlayerService.getAcceptedTrades(),
 			world: userData.worldObj,
-			tavernData: friendsTavernService.getData()
+			tavernData: userData.services.FriendsTavernService == false ? {} : friendsTavernService.getData()
 		});
 	};
 
