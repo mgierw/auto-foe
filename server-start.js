@@ -42,6 +42,7 @@ var userSettings = JSON.parse(fs.readFileSync('./userdata/settings.json', 'utf8'
 //var userData = userSettings.accounts[0];
 //var gameHelper = index.get(userData);
 _.each(userSettings.accounts, a => {
+	a.services = a.services || {};
 	a.gameHelper = index.get(a);
 	a.gameHelper.startAccount();
 });

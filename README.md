@@ -7,7 +7,7 @@ First, install dependencies:
 ```
 npm install
 ```
-Next need to provide your account settings in file ``userdata/settings.json``. After that run server by typing:
+Next you need to provide your account settings in file ``userdata/settings.json``. After that run server by typing:
 ```
 node server-start.js
 ```
