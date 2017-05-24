@@ -20,7 +20,7 @@ var createService = function(userData) {
 		return invokeGetData();
 	};
 
-	const serviceArray = [];
+	let serviceArray = [];
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
@@ -101,17 +101,17 @@ var createService = function(userData) {
 
 	var processAutomaticActions = function() {
 		return util.getEmptyPromise({})
-			.then(checkOption(cityProductionService.process))
+			.then(checkOption(cityProductionService))
 			.then(otherPlayerService.process)
-			.then(checkOption(hiddenRewardService.process))
-			.then(checkOption(researchService.process))
-			.then(checkOption(greatBuildingsService.process))
-			.then(checkOption(tradeService.process))
-			.then(checkOption(campaignService.process))
-			.then(checkOption(cityMapService.process))
-			.then(checkOption(resourceService.process))
-			.then(checkOption(treasureHuntService.process))
-			.then(checkOption(friendsTavernService.process));
+			.then(checkOption(hiddenRewardService))
+			.then(checkOption(researchService))
+			.then(checkOption(greatBuildingsService))
+			.then(checkOption(tradeService))
+			.then(checkOption(campaignService))
+			.then(checkOption(cityMapService))
+			.then(checkOption(resourceService))
+			.then(checkOption(treasureHuntService))
+			.then(checkOption(friendsTavernService));
 	};
 
 
