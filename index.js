@@ -89,7 +89,7 @@ var createService = function(userData) {
 			isLogged = true;
 			return result;
 		});
-	};!userData.services.TradeService == false ? "" :
+	};
 
 	var deleteBuilding = (query) => {
 		return cityMapService.removeBuilding(query.bldId).then(() => ({status: 'OK'}));
@@ -157,15 +157,15 @@ var createService = function(userData) {
 			resourceList: cityResourcesService.getResourceList(),
 			settings: userData.settings || {},
 			paused: paused,
-			researchArray: !userData.services.ResearchService == false ? [] : researchService.getResearchArray(),
+			researchArray: userData.services.ResearchService == false ? [] : researchService.getResearchArray(),
 			user_data: user_data,
 			neighbourList: otherPlayerService.getNeighborList(),
-			tradeOffersArray: !userData.services.TradeService == false ? [] : tradeService.getMyOffers(true),
-			otherOffersArray: !userData.services.TradeService == false ? [] : tradeService.getMyOffers(false),
-			campaign: !userData.services.campaignService == false ? {} : campaignService.getCampaignData(),
-			acceptedTrades: !userData.services.OtherPlayerService == false ? [] : otherPlayerService.getAcceptedTrades(),
+			tradeOffersArray: userData.services.TradeService == false ? [] : tradeService.getMyOffers(true),
+			otherOffersArray: userData.services.TradeService == false ? [] : tradeService.getMyOffers(false),
+			campaign: userData.services.campaignService == false ? {} : campaignService.getCampaignData(),
+			acceptedTrades: userData.services.OtherPlayerService == false ? [] : otherPlayerService.getAcceptedTrades(),
 			world: userData.worldObj,
-			tavernData: !userData.services.FriendsTavernService == false ? {} : friendsTavernService.getData()
+			tavernData: userData.services.FriendsTavernService == false ? {} : friendsTavernService.getData()
 		});
 	};
 
