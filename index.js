@@ -20,7 +20,7 @@ var createService = function(userData) {
 		return invokeGetData();
 	};
 
-	let serviceArray = [];
+	const serviceArray = [];
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
@@ -38,10 +38,6 @@ var createService = function(userData) {
 	const startupService = require('./server/StartupService').get(userData, apiService, cityMapService, definitionService, cityResourcesService, resourceService); serviceArray.push(startupService);
 	const campaignService = require('./server/CampaignService').get(userData, apiService, cityResourcesService, eraService); serviceArray.push(campaignService);
 	const greatBuildingsService = require('./server/GreatBuildingsService').get(userData, apiService, definitionService, cityResourcesService, cityMapService, otherPlayerService); serviceArray.push(greatBuildingsService);
-
-	if(userData.services) {
-		serviceArray = serviceArray.filter(service => userData.services[service.getServiceName()] != false);
-	}
 
 	apiService.setServiceArray(serviceArray);
 
@@ -95,23 +91,19 @@ var createService = function(userData) {
 		return cityMapService.removeBuilding(query.bldId).then(() => ({status: 'OK'}));
 	};
 
-	var checkOption = (service) => {
-		if(userData.services[service.getServiceName()] != false) return service.process;
-	}
-
 	var processAutomaticActions = function() {
 		return util.getEmptyPromise({})
-			.then(checkOption(cityProductionService))
+			.then(cityProductionService.process)
 			.then(otherPlayerService.process)
-			.then(checkOption(hiddenRewardService))
-			.then(checkOption(researchService))
-			.then(checkOption(greatBuildingsService))
-			.then(checkOption(tradeService))
-			.then(checkOption(campaignService))
-			.then(checkOption(cityMapService))
-			.then(checkOption(resourceService))
-			.then(checkOption(treasureHuntService))
-			.then(checkOption(friendsTavernService));
+			.then(hiddenRewardService.process)
+			.then(researchService.process)
+			.then(greatBuildingsService.process)
+			.then(tradeService.process)
+			.then(campaignService.process)
+			.then(cityMapService.process)
+			.then(resourceService.process)
+			.then(treasureHuntService.process)
+			.then(friendsTavernService.process);
 	};
 
 

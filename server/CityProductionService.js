@@ -5,7 +5,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 	const serviceName = 'CityProductionService';
 	const wls = util.writeLogService(userData);
 
-	wls.writeLog(`Creating service ${serviceName}`);
+	wls.writeLog(`Tworzę usługę ${serviceName}`);
 
 	const isBuildingStateTimedOut = function(b) {
 		var sysdate = (new Date()).valueOf();
@@ -90,7 +90,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 					return checkStrategyPointOverflow(b);
 				} else {
 					//writeLog('Do zbioru produkcji z [' + bd.name + '] brakuje ' + util.renderTimeSpan(diff / 1000, 1));
-				}
+				} 
 			}
 			return false;
 		}).map(b => {
@@ -109,7 +109,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 	const removePlunderedState = function() {
 		var buildingIdList = _(cityMapService.getBuildingList()).filter(b => b.state.__class__ === 'PlunderedState').map(b => {
 			var bd = definitionService.findBuildingDefinition(b.cityentity_id);
-			wls.writeLog('Repairing the building after plundering: ' + bd.name);
+			wls.writeLog('Naprawianie budynku po splądrowaniu: ' + bd.name);
 			return b.id;
 		}).value();
 		if (buildingIdList.length) {

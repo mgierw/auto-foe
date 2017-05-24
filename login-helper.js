@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 var login = function(networkService, userData) {
 	if (userData.logged) {
-		console.log('This account is already running');
+		console.log('Konto już jest uruchomione');
 		return util.getEmptyPromise({
 			status: 'ALREADY_STARTED'
 		});
@@ -12,10 +12,10 @@ var login = function(networkService, userData) {
 		var reqUri = res.request.uri;
 		var action = form.attr('action');
 		if (action.substr(0, 4) === 'http') {
-			console.log('Form action blocked by a full URL');
+			console.log('Akcja formularza jest pełnym URL-em');
 			return action;
 		}
-		console.log('The form action is not a full URL, applying the protocol and the host');
+		console.log('Akcja formularza nie jest pełnym URL-em, doklejam protokół i hosta');
 		return reqUri.protocol + '//' + reqUri.host + action;
 	};
 	var collectForm = function($, form) {
@@ -49,12 +49,12 @@ var login = function(networkService, userData) {
 	};
 	//doPostAjax
 	console.log('Logowanie za pomocą konta gry');
-	return networkService.doGet(`https://${userData.lang}.forgeofempires.com/`, {}).then(data => {
+	return networkService.doGet('https://' + userData.lang + '.forgeofempires.com/', {}).then(data => {
 		var formSelector = 'form[name=login]';
 		if (!data.$(formSelector).length) {
 			return util.getEmptyPromise(data);
 		}
-		return submitForm2(data, formSelector, 'Sending login information…', {
+		return submitForm2(data, formSelector, 'Wysyłanie danych logowania…', {
 			'login[userid]': userData.username,
 			'login[password]': new Buffer(userData.password, 'base64').toString('ascii'),
 			'login[remember_me]': 'true'
