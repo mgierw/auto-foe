@@ -45,6 +45,9 @@ exports.get = (userData, apiService, definitionService) => {
 		setCarnivalTimeout: timeout => {
 			carnivalTimeout = timeout;
 		},
-		getTavernSilverAmount: () => getAmount('tavern_silver')
+		getTavernSilverAmount: () => getAmount('tavern_silver'),
+		getResourceList: () => {
+			return resourceList;
+		}
 	};
 };

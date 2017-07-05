@@ -2,7 +2,7 @@
 'use strict';
 
 var util = require('./util');
-//var _ = require('lodash');
+var _ = require('lodash');
 var iconFilenameMappings = require('./icon-filename-mapping');
 var nameMappingPl = require('./nameMappingPl');
 var apiHelperFactory = require('./apiHelper');
@@ -140,13 +140,25 @@ var createService = function(userData) {
 		});
 	};
 
+	var getResourceListUnion = function() {
+		const unionArray = cityResourcesService.getResourceList();
+		if (unionArray && unionArray.goods) {
+			_.each(resourceService.getResourceList(), (v, k) => {
+				if (k !== 'tavern_silver') {
+					unionArray[k] = v;
+				}
+			});
+		}
+		return unionArray;
+	};
+
 	var getAccountData = function() {
 		if (!userData) {
 			return util.getEmptyPromise({});
 		}
 		return util.getEmptyPromise({
 			buildingList: cityMapService.getBuildingList(),
-			resourceList: cityResourcesService.getResourceList(),
+			resourceList: getResourceListUnion(),
 			settings: userData.settings || {},
 			paused: paused,
 			researchArray: researchService.getResearchArray(),
