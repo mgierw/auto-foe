@@ -48,7 +48,6 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 				});
 			} else {
 				// Wszystkie prowincje zostały pobrane
-				/*
 				const provinceToPay = _(scoutedAndNotPayedProvinces).filter(p => {
 					var remainingResourcesToPay = _(p.segmentArray).filter(s => !s.isPlayerOwned).map(s => s.goodsPrice).flatten().groupBy('good_id').mapValues(g => _.sumBy(g, 'value')).map((v, k) => ({good_id: k, value: v})).value();
 					return _.every(remainingResourcesToPay, gp => cityResourcesService.getAmount(gp.good_id) >= gp.value);
@@ -66,7 +65,21 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 						province.segmentArray = segmentArray;
 					}).then(cityResourcesService.getResources).then(getCampaign);
 				}
+/*
+				var isSomeScouted = function(idArray)  {
+					return _(idArray).map(pId => {
+						var p = getProvinceById(pId);
+						return p.isScouted && p.isPlayerOwned;
+					}).some();
+				};
 
+				var isEveryScouted = function(idArray)  {
+					return _(idArray).map(pId => {
+						var p = getProvinceById(pId);
+						return p.isScouted && p.isPlayerOwned;
+					}).every();
+				};
+*/
 				var sysdate = (new Date()).valueOf();
 				if (campaign.scout.__timeout__ && campaign.scout.__timeout__ < sysdate) {
 					return getCampaign();
@@ -118,7 +131,6 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 						});
 					}
 				}
-				*/
 			}
 			return Promise.resolve(null);
 		} else {
