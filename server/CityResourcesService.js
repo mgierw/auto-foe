@@ -1,7 +1,7 @@
 var util = require('../util');
 var _ = require('lodash');
 
-exports.get = (userData, apiService) => {
+exports.get = (userData, apiService, resourceService) => {
 	const serviceName = 'CityResourcesService';
 	const wls = util.writeLogService(userData);
 
@@ -36,6 +36,18 @@ exports.get = (userData, apiService) => {
 		}
 		return retVal;
 	};
+	const getResourceListUnion = function() {
+		const unionArray = _.clone(resourceList);
+		if (unionArray && unionArray.goods) {
+			_.each(resourceService.getResourceList(), (v, k) => {
+				if (k !== 'tavern_silver' && k !== 'strategy_points') {
+					unionArray[k] = v;
+				}
+			});
+		}
+		return unionArray;
+	};
+
 
 	const getResources = () => apiService.doServerRequest(serviceName, [], 'getResources');
 
@@ -65,7 +77,7 @@ exports.get = (userData, apiService) => {
 		getResourceList: () => resourceList,
 		setResourceList: newValue => resourceList = newValue,
 		getAmount: good_id => {
-			var foundRes = _.find(convertCityResource(resourceList), r => r.good_id === good_id);
+			var foundRes = _.find(convertCityResource(getResourceListUnion()), r => r.good_id === good_id);
 			return foundRes ? (foundRes.value || 0) : 0;
 		},
 		isPossibleToSpendSp: () => getSpAmount() >= spUsageTreshold,
@@ -73,6 +85,7 @@ exports.get = (userData, apiService) => {
 		getResources: getResources,
 		process: () => {
 			return refreshGuard.invoke();
-		}
+		},
+		getResourceListUnion: getResourceListUnion
 	};
 };

@@ -24,9 +24,9 @@ var createService = function(userData) {
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
-	const cityResourcesService = require('./server/CityResourcesService').get(userData, apiService); serviceArray.push(cityResourcesService);
-	const cityMapService = require('./server/CityMapService').get(userData, definitionService, cityResourcesService, apiService); serviceArray.push(cityMapService);
 	const resourceService = require('./server/ResourceService').get(userData, apiService, definitionService); serviceArray.push(resourceService);
+	const cityResourcesService = require('./server/CityResourcesService').get(userData, apiService, resourceService); serviceArray.push(cityResourcesService);
+	const cityMapService = require('./server/CityMapService').get(userData, definitionService, cityResourcesService, apiService); serviceArray.push(cityMapService);
 	const treasureHuntService = require('./server/TreasureHuntService').get(userData, apiService); serviceArray.push(treasureHuntService);
 	const otherPlayerService = require('./server/OtherPlayerService').get(userData, apiService, definitionService); serviceArray.push(otherPlayerService);
 	const cityProductionService = require('./server/CityProductionService').get(userData, apiService, cityMapService, definitionService, cityResourcesService); serviceArray.push(cityProductionService);
