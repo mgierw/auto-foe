@@ -103,7 +103,8 @@ var createService = function(userData) {
 			.then(cityMapService.process)
 			.then(resourceService.process)
 			.then(treasureHuntService.process)
-			.then(friendsTavernService.process);
+			.then(friendsTavernService.process)
+			.then(cityResourcesService.process);
 	};
 
 
@@ -141,10 +142,10 @@ var createService = function(userData) {
 	};
 
 	var getResourceListUnion = function() {
-		const unionArray = cityResourcesService.getResourceList();
+		const unionArray = _.clone(cityResourcesService.getResourceList());
 		if (unionArray && unionArray.goods) {
 			_.each(resourceService.getResourceList(), (v, k) => {
-				if (k !== 'tavern_silver') {
+				if (k !== 'tavern_silver' && k !== 'strategy_points') {
 					unionArray[k] = v;
 				}
 			});

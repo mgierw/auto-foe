@@ -37,6 +37,10 @@ exports.get = (userData, apiService) => {
 		return retVal;
 	};
 
+	const getResources = () => apiService.doServerRequest(serviceName, [], 'getResources');
+
+	const refreshGuard = util.intervalPromiseGuard2(60, getResources);
+
 	let getSpAmount = () => _.get(resourceList, 'strategy_points.currentSP', 0);
 
 	let spUsageTreshold = 5;
@@ -66,6 +70,9 @@ exports.get = (userData, apiService) => {
 		},
 		isPossibleToSpendSp: () => getSpAmount() >= spUsageTreshold,
 		decreaseSp: value => resourceList.strategy_points.currentSP = getSpAmount() - value, //Tutaj celowo wywołuję getSpAmount na wypadek, gdyby pole currentSP nie istniało
-		getResources: () => apiService.doServerRequest(serviceName, [], 'getResources')
+		getResources: getResources,
+		process: () => {
+			return refreshGuard.invoke();
+		}
 	};
 };
