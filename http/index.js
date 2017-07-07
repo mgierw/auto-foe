@@ -505,7 +505,7 @@ $(function() {
 		var renderProductionBuildingList = function() {
 			var blt = $('#building-production-list').empty();
 			_(accData.buildingList).filter(o => {
-				return o.type === 'production';
+				return o.type === 'production' || o.type === 'random_production';
 			}).sortBy(o => o.cityentity_id).each(o => {
 				var d = findBuildingDefinition(o.cityentity_id);
 				var tr = $(templates.buildingProduction({

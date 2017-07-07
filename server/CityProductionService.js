@@ -17,7 +17,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 		//var sysdate = (new Date()).valueOf();
 		//writeLog('startProductionSupplies');
 		var checkIfValidState = function(b) {
-			return (b.type === 'production' || b.type === 'goods' || b.type === 'residential');
+			return (b.type === 'production' || b.type === 'goods' || b.type === 'residential' || b.type === 'random_production');
 		};
 
 		var reqList = _(cityMapService.getBuildingList()).filter(b => {
