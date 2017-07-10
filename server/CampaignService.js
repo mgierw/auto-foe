@@ -49,7 +49,7 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 			} else {
 				// Wszystkie prowincje zostały pobrane
 				const provinceToPay = _(scoutedAndNotPayedProvinces).filter(p => {
-					var remainingResourcesToPay = _(p.segmentArray).filter(s => !s.isPlayerOwned).map(s => s.goodsPrice).flatten().groupBy('good_id').mapValues(g => _.sumBy(g, 'value')).map((v, k) => ({good_id: k, value: v})).value();
+					var remainingResourcesToPay = _(p.segmentArray).filter(s => !s.isPlayerOwned).map(s => _.map(s.resourcePrice.resources, (v, k) => ({good_id: k, value: v}))).flatten().groupBy('good_id').mapValues(g => _.sumBy(g, 'value')).map((v, k) => ({good_id: k, value: v})).value();
 					return _.every(remainingResourcesToPay, gp => cityResourcesService.getAmount(gp.good_id) >= gp.value);
 				}).sortBy(p => {
 					if (p.reward) {

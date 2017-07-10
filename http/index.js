@@ -822,7 +822,7 @@ $(function() {
 
 			var list = $('#campaign-list').empty();
 			_.each(_.concat(provinceToScoutArray, scoutedAndNotOwnedArray), p => {
-				var remainingResourcesToPay = _(p.segmentArray).filter(s => !s.isPlayerOwned).map(s => s.goodsPrice).flatten().groupBy('good_id').mapValues(g => _.sumBy(g, 'value')).map((v, k) => ({good_id: k, value: v})).value();
+				var remainingResourcesToPay = _(p.segmentArray).filter(s => !s.isPlayerOwned).map(s => _.map(s.resourcePrice.resources, (v, k) => ({good_id: k, value: v}))).flatten().groupBy('good_id').mapValues(g => _.sumBy(g, 'value')).map((v, k) => ({good_id: k, value: v})).value();
 				var tr = $(templates.campaign({
 					eraName: getEraName(p.era),
 					name: p.name,
