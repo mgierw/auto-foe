@@ -41,7 +41,10 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 			}
 		}).map(b => {
 			var buildingDefinition = definitionService.findBuildingDefinition(b.cityentity_id);
-			//writeLog('\tBudynek = ' + buildingDefinition.name);
+			if (!buildingDefinition) {
+				wls.writeLog(`Unknown definition for ${b.cityentity_id}`);
+				return;
+			}
 			var shortestTimeProductionWithoutRequirements = _(buildingDefinition.available_products).filter(ap => {
 				//writeLog('\t\tap.deposit_id = ' + ap.deposit_id);
 				var settingProdId = (userData.settings || {})[b.id];

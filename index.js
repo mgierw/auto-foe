@@ -24,6 +24,7 @@ var createService = function(userData) {
 
 	const definitionService = require('./server/DefinitionService').get(userData); serviceArray.push(definitionService);
 	const apiService = require('./server/ApiService').get(userData, apiHelper, afterStartGameCallback);// serviceArray.push(apiService);
+	const staticDataService = require('./server/StaticDataService').get(userData, apiHelper); serviceArray.push(staticDataService);
 	const resourceService = require('./server/ResourceService').get(userData, apiService, definitionService); serviceArray.push(resourceService);
 	const cityResourcesService = require('./server/CityResourcesService').get(userData, apiService, resourceService); serviceArray.push(cityResourcesService);
 	const cityMapService = require('./server/CityMapService').get(userData, definitionService, cityResourcesService, apiService); serviceArray.push(cityMapService);
@@ -83,7 +84,10 @@ var createService = function(userData) {
 			userData.era = user_data.era.era;
 			userData.eraName = eraService.getEraName(user_data.era.era);
 			isLogged = true;
-			return result;
+			return staticDataService.retrieveMetaData('city_entities').then(bldDefArray => {
+				definitionService.setBuildingDefinitions(bldDefArray);
+				return result;
+			});
 		});
 	};
 

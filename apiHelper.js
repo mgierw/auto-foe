@@ -147,7 +147,8 @@ var createService = function(userData) {
 		doApiRequestArray: doApiRequestArray,
 		doApiRequest: doApiRequest,
 		startAccount: startAccount,
-		getBasePath: getBasePath
+		getBasePath: getBasePath,
+		networkService: networkService
 	};
 };
 

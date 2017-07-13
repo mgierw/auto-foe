@@ -145,6 +145,14 @@ var createService = function(cookieFileName) {
 		}, options || {}));
 	};
 
+	var doGetJson = function(url, form, options) {
+		//console.log(`doPostJson("${url}", "${form}")`);
+		return doJsonRequest(request.get, _.assign({
+			body: form,
+			url: url
+		}, options || {headers: {}}));
+	};
+
 	var saveToFile = function(/*fileName, objToSave*/) {
 		/*
 		if (!process.env.NODE_PORT) {
@@ -229,7 +237,8 @@ var createService = function(cookieFileName) {
 		doPost: doPost,
 		doPostAjax: doPostAjax,
 		doPostJson: doPostJson,
-		doApiRequest: doApiRequest
+		doApiRequest: doApiRequest,
+		doGetJson: doGetJson
 	};
 };
 
