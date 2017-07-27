@@ -9,6 +9,8 @@ $(function() {
 			return '';
 		}
 		switch(ts.state) {
+		case 'notUnlocked':
+			return 'Niedostępne';
 		case 'isSitting':
 			return 'Siedzę';
 		case 'noChair':
@@ -152,8 +154,8 @@ $(function() {
 			'__class__',
 			'goods',
 			'good',
-			'seasonal_resource_vo',
-			'strategy_points'
+			'seasonal_resource_vo'//,
+			//'strategy_points'
 		];
 		var createCityGood = function(good_id, value) {
 			return {
@@ -163,9 +165,9 @@ $(function() {
 			};
 		};
 		var retVal = _(cr).map((x, k) => createCityGood(k, x)).filter(x => !_.find(ommitProperties, p => p === x.good_id)).value().concat(cr.goods || []);
-		if (cr.strategy_points) {
-			retVal.push(createCityGood('strategy_points', cr.strategy_points.currentSP || 0));
-		}
+		//if (cr.strategy_points) {
+		//	retVal.push(createCityGood('strategy_points', cr.strategy_points.currentSP || 0));
+		//}
 		if (cr.seasonal_resource_vo) {
 			retVal.push(createCityGood('seasonal_resource_vo', cr.seasonal_resource_vo.seasonal_resource || 0));
 		}
@@ -700,10 +702,12 @@ $(function() {
 				return r.good_id;
 			};
 			var r = convertCityResource(accData.resourceList);
+			/*
 			r.push({
 				good_id: 'tavern_silver',
 				value: accData.tavernData.silverAmount
 			});
+			*/
 			var hasRaw = function(resList, good_id) {
 				return  !!_.some(resList, r => r.good_id === 'raw_' + good_id);
 			};

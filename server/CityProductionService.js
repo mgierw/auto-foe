@@ -76,8 +76,8 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 		var checkStrategyPointOverflow = function(b) {
 			var sp = _.get(b, 'state.current_product.revenue.strategy_points.currentSP');
 			if (sp !== undefined) {
-				let rsp = resourceService.getSp();
-				return (rsp.currentSP || 0) + sp <= rsp.maxSP;
+				let rsp = resourceService.getSpAmount();
+				return (rsp || 0) + sp <= 10; //TODO: Obtain maximum numer of SP from server: ResourceService, getResourceDefinitions
 			} else {
 				return true;
 			}

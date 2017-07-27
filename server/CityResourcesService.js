@@ -17,8 +17,8 @@ exports.get = (userData, apiService, resourceService) => {
 			'__class__',
 			'goods',
 			'good',
-			'seasonal_resource_vo',
-			'strategy_points'
+			'seasonal_resource_vo'//,
+			//'strategy_points'
 		];
 		var createCityGood = function(good_id, value) {
 			return {
@@ -28,32 +28,21 @@ exports.get = (userData, apiService, resourceService) => {
 			};
 		};
 		var retVal = _(cr).map((x, k) => createCityGood(k, x)).filter(x => !_.find(ommitProperties, p => p === x.good_id)).value().concat(cr.goods || []);
-		if (cr.strategy_points) {
-			retVal.push(createCityGood('strategy_points', cr.strategy_points.currentSP || 0));
-		}
+		//if (cr.strategy_points) {
+		//	retVal.push(createCityGood('strategy_points', cr.strategy_points.currentSP || 0));
+		//}
 		if (cr.seasonal_resource_vo) {
 			retVal.push(createCityGood('seasonal_resource_vo', cr.seasonal_resource_vo.seasonal_resource || 0));
 		}
 		return retVal;
 	};
-	const getResourceListUnion = function() {
-		const unionArray = _.clone(resourceList);
-		if (unionArray && unionArray.goods) {
-			_.each(resourceService.getResourceList(), (v, k) => {
-				if (k !== 'tavern_silver' && k !== 'strategy_points') {
-					unionArray[k] = v;
-				}
-			});
-		}
-		return unionArray;
-	};
-
+	const getResourceListUnion = () => resourceService.getResourceList();
 
 	const getResources = () => apiService.doServerRequest(serviceName, [], 'getResources');
 
 	const refreshGuard = util.intervalPromiseGuard2(60, getResources);
 
-	let getSpAmount = () => _.get(resourceList, 'strategy_points.currentSP', 0);
+	let getSpAmount = () => resourceService.getAmount('strategy_points');
 
 	let spUsageTreshold = 5;
 
@@ -71,8 +60,8 @@ exports.get = (userData, apiService, resourceService) => {
 		getServiceName: () => serviceName,
 		getPopulation: () => resourceList.population || 0,
 		getSpAmount: getSpAmount,
-		getSp: () => resourceList.strategy_points,
-		setSp: newValue => resourceList.strategy_points = newValue,
+		//getSp: () => resourceList.strategy_points,
+		//setSp: newValue => resourceList.strategy_points = newValue,
 		isDeposit: deposit_id => !!_.find(resourceList.goods, g => g.good_id === deposit_id),
 		getResourceList: () => resourceList,
 		setResourceList: newValue => resourceList = newValue,
@@ -81,7 +70,7 @@ exports.get = (userData, apiService, resourceService) => {
 			return foundRes ? (foundRes.value || 0) : 0;
 		},
 		isPossibleToSpendSp: () => getSpAmount() >= spUsageTreshold,
-		decreaseSp: value => resourceList.strategy_points.currentSP = getSpAmount() - value, //Tutaj celowo wywołuję getSpAmount na wypadek, gdyby pole currentSP nie istniało
+		decreaseSp: value => resourceService.decreaseSp(value),
 		getResources: getResources,
 		process: () => {
 			return refreshGuard.invoke();

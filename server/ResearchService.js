@@ -79,17 +79,17 @@ exports.get = (userData, apiService, resourceService) => {
 				if (rd.technology) {
 					util.replaceInArray(researchArray, 'id', rd.technology);
 				}
-				if (rd.strategyPoints) {
-					resourceService.setSp(rd.strategyPoints);
-				}
+				//if (rd.strategyPoints) {
+				//	resourceService.setSp(rd.strategyPoints);
+				//}
 			};
 			var handlePayTechnology = function(rd) {
 				if (rd.technology) {
 					util.replaceInArray(researchArray, 'id', rd.technology);
 				}
-				if (rd.strategyPoints) {
-					resourceService.setSp(rd.strategyPoints);
-				}
+				//if (rd.strategyPoints) {
+				//	resourceService.setSp(rd.strategyPoints);
+				//}
 			};
 			switch (rd.requestMethod) {
 			case 'start':

@@ -48,6 +48,10 @@ exports.get = (userData, apiService, definitionService) => {
 		getTavernSilverAmount: () => getAmount('tavern_silver'),
 		getResourceList: () => {
 			return resourceList;
-		}
+		},
+		decreaseSp: value => {
+			resourceList['strategy_points'] -= value;
+		},
+		getAmount: getAmount
 	};
 };

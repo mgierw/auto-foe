@@ -145,25 +145,13 @@ var createService = function(userData) {
 		});
 	};
 
-	var getResourceListUnion = function() {
-		const unionArray = _.clone(cityResourcesService.getResourceList());
-		if (unionArray && unionArray.goods) {
-			_.each(resourceService.getResourceList(), (v, k) => {
-				if (k !== 'tavern_silver' && k !== 'strategy_points') {
-					unionArray[k] = v;
-				}
-			});
-		}
-		return unionArray;
-	};
-
 	var getAccountData = function() {
 		if (!userData) {
 			return util.getEmptyPromise({});
 		}
 		return util.getEmptyPromise({
 			buildingList: cityMapService.getBuildingList(),
-			resourceList: getResourceListUnion(),
+			resourceList: cityResourcesService.getResourceListUnion(),
 			settings: userData.settings || {},
 			paused: paused,
 			researchArray: researchService.getResearchArray(),
