@@ -709,7 +709,7 @@ $(function() {
 			});
 			*/
 			var hasRaw = function(resList, good_id) {
-				return  !!_.some(resList, r => r.good_id === 'raw_' + good_id);
+				return  !!_.some(accData.depositStates, (v, k) => k === 'raw_' + good_id && v === 2);
 			};
 			renderResList(_(r).filter(isSpecial).sortBy(getProductId).value(), $('#res-other-list').empty());
 			var myEraIndex = getEraIndex(accData.user_data.era.era);

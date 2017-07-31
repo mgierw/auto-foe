@@ -62,7 +62,7 @@ exports.get = (userData, apiService, resourceService) => {
 		getSpAmount: getSpAmount,
 		//getSp: () => resourceList.strategy_points,
 		//setSp: newValue => resourceList.strategy_points = newValue,
-		isDeposit: deposit_id => !!_.find(resourceList.goods, g => g.good_id === deposit_id),
+		//isDeposit: deposit_id => !!_.find(resourceList.goods, g => g.good_id === deposit_id),
 		getResourceList: () => resourceList,
 		setResourceList: newValue => resourceList = newValue,
 		getAmount: good_id => {

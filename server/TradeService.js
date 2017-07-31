@@ -1,7 +1,7 @@
 var util = require('../util');
 var _ = require('lodash');
 
-exports.get = (userData, apiService, definitionService, cityResourcesService, eraService) => {
+exports.get = (userData, apiService, definitionService, cityResourcesService, eraService, campaignService) => {
 	const serviceName = 'TradeService';
 	const wls = util.writeLogService(userData);
 
@@ -40,7 +40,7 @@ exports.get = (userData, apiService, definitionService, cityResourcesService, er
 			res: tradeRes,
 			def: def,
 			amount: cityResourcesService.getAmount(tradeRes.id),
-			isDeposit: cityResourcesService.isDeposit('raw_' + tradeRes.id),
+			isDeposit: campaignService.isDeposit('raw_' + tradeRes.id),
 			eraIndex: eraService.getEraIndex(def.era)
 		};
 	};

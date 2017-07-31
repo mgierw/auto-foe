@@ -34,11 +34,11 @@ var createService = function(userData) {
 	const researchService = require('./server/ResearchService').get(userData, apiService, cityResourcesService); serviceArray.push(researchService);
 	const friendsTavernService = require('./server/FriendsTavernService').get(userData, apiService, otherPlayerService, resourceService, researchService); serviceArray.push(friendsTavernService, researchService);
 	const friendService = require('./server/FriendService').get(userData, apiService, otherPlayerService); serviceArray.push(friendService);
-	const tradeService = require('./server/TradeService').get(userData, apiService, definitionService, cityResourcesService, eraService); serviceArray.push(tradeService);
 	const hiddenRewardService = require('./server/HiddenRewardService').get(userData, apiService); serviceArray.push(hiddenRewardService);
 	const startupService = require('./server/StartupService').get(userData, apiService, cityMapService, definitionService, cityResourcesService, resourceService); serviceArray.push(startupService);
 	const campaignService = require('./server/CampaignService').get(userData, apiService, cityResourcesService, eraService); serviceArray.push(campaignService);
 	const greatBuildingsService = require('./server/GreatBuildingsService').get(userData, apiService, definitionService, cityResourcesService, cityMapService, otherPlayerService); serviceArray.push(greatBuildingsService);
+	const tradeService = require('./server/TradeService').get(userData, apiService, definitionService, cityResourcesService, eraService, campaignService); serviceArray.push(tradeService);
 
 	apiService.setServiceArray(serviceArray);
 
@@ -160,6 +160,7 @@ var createService = function(userData) {
 			tradeOffersArray: tradeService.getMyOffers(true),
 			otherOffersArray: tradeService.getMyOffers(false),
 			campaign: campaignService.getCampaignData(),
+			depositStates: campaignService.getDepositStates(),
 			acceptedTrades: otherPlayerService.getAcceptedTrades(),
 			world: userData.worldObj,
 			tavernData: friendsTavernService.getData()

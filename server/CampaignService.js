@@ -9,6 +9,7 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 	wls.writeLog(`Tworzę usługę ${serviceName}`);
 
 	let campaign = null;
+	let depositStates = {};
 
 	var getCampaign = () => apiService.doServerRequest(serviceName, [], 'start');
 
@@ -140,13 +141,19 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 
 	return {
 		handleResponse: (rd) => {
-			var handleStart = function(responseData) {
+			const handleStart = function(responseData) {
 				campaign = responseData;
 				handleProductionTimeouts();
+			};
+			const handleGetDeposits = function(responseData) {
+				depositStates = responseData.states;
 			};
 			switch (rd.requestMethod) {
 			case 'start':
 				handleStart(rd.responseData);
+				break;
+			case 'getDeposits':
+				handleGetDeposits(rd.responseData);
 				break;
 			}
 		},
@@ -154,6 +161,8 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 		process: () => {
 			return processCampaign();
 		},
-		getCampaignData: () => campaign
+		getCampaignData: () => campaign,
+		isDeposit: deposit_id => !!_.find(depositStates, (v, k) => k === deposit_id && v === 2),
+		getDepositStates: () => depositStates
 	};
 };
