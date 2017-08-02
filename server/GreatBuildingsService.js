@@ -17,7 +17,7 @@ exports.get = (userData, apiService, definitionService, cityResourcesService, ci
 				const bd = definitionService.findBuildingDefinition(gb.cityentity_id);
 				const player = otherPlayerService.findPlayer(gb.player_id);
 				wls.writeLog(`Wydawanie ${amountToSpend} punktu(ów) na perłę architektury ${bd.name} gracza ${player.name}`);
-				return apiService.doServerRequest(serviceName, [gb.id, gb.player_id, gb.level, amountToSpend], 'spendForgePoints');
+				return apiService.doServerRequest(serviceName, [gb.id, gb.player_id, gb.level || 0, amountToSpend], 'spendForgePoints');
 			}
 		}
 		return util.getEmptyPromise(null);
