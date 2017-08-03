@@ -130,7 +130,7 @@ exports.get = (userData, apiService, cityMapService, definitionService, resource
 		},
 		getServiceName: () => serviceName,
 		process: () => {
-			return collectProduction(removePlunderedState).then().then(startProductionSupplies);
+			return collectProduction().then(removePlunderedState).then(startProductionSupplies);
 		}
 	};
 };

@@ -39,6 +39,11 @@ exports.get = (userData, apiHelper, afterStartGameCallback) => {
 				_.each(reqDataArray, rd => {
 					wls.writeLog(`${rd.requestId}, ${rd.requestMethod}, ${rd.requestClass}`);
 				});
+				_.each(serviceArray, s => {
+					if (s.reset) {
+						s.reset();
+					}
+				});
 				return apiHelper.doStartGame(redirectUrl).then(afterStartGameCallback);
 			}
 			return response;

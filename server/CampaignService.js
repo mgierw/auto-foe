@@ -163,6 +163,10 @@ exports.get = (userData, apiService, cityResourcesService, eraService) => {
 		},
 		getCampaignData: () => campaign,
 		isDeposit: deposit_id => !!_.find(depositStates, (v, k) => k === deposit_id && v === 2),
-		getDepositStates: () => depositStates
+		getDepositStates: () => depositStates,
+		reset: () => {
+			wls.writeLog('Resetting campaign...');
+			campaign = null;
+		}
 	};
 };
