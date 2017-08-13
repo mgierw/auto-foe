@@ -714,7 +714,7 @@ $(function() {
 			renderResList(_(r).filter(isSpecial).sortBy(getProductId).value(), $('#res-other-list').empty());
 			var myEraIndex = getEraIndex(accData.user_data.era.era);
 			var resGroups = $('#resource-groups').empty();
-			_(definitions.resDefinitions).map(d => d.era).uniq().filter(era => era !== 'NoAge' && era !== 'AllAge' && getEraIndex(era) <= myEraIndex).each(era => {
+			_(definitions.resDefinitions).filter(d => getAmount(d.id) || hasRaw(r, d.id)).map(d => d.era).uniq().filter(era => era !== 'NoAge' && era !== 'AllAge').each(era => {
 				var resRow = $(templates.resRow({})).appendTo(resGroups);
 				resRow.find('.header').text(getEraName(era));
 				var content = resRow.find('.content');
